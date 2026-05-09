@@ -1,65 +1,128 @@
-import Image from "next/image";
+'use client'
+
+import Link from 'next/link'
+import { HeroSection } from '@/components/homepage/HeroSection'
+import { motion } from 'framer-motion'
 
 export default function Home() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  }
+
+  const cardVariants = {
+    hidden: { y: 50, opacity: 0 },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: {
+        type: 'spring',
+        stiffness: 100,
+        damping: 12
+      }
+    }
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="bg-background">
+      <HeroSection />
+
+      {/* Marquee Tagline */}
+      <div className="w-full bg-primary-container text-background py-3 overflow-hidden border-y border-primary relative z-20">
+        <div className="whitespace-nowrap flex font-orbitron font-bold text-xl uppercase tracking-widest">
+          <motion.div 
+            animate={{ x: [0, -1000] }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            className="flex"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            {[...Array(10)].map((_, i) => (
+              <span key={i} className="flex shrink-0">
+                <span className="mx-4">DRAG. DROP. SPIN.</span>
+                <span className="mx-4 text-background/30">///</span>
+              </span>
+            ))}
+          </motion.div>
         </div>
-      </main>
+      </div>
+
+      {/* How it Works / System Diagnostics */}
+      <section className="w-full py-32 px-6 lg:px-24 bg-surface-dim relative border-b border-surface-bright/50 overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
+          <div className="absolute top-1/4 left-10 w-64 h-64 bg-primary-container/20 rounded-full blur-[100px] animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-secondary-container/20 rounded-full blur-[120px] animate-pulse [animation-delay:2s]"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto flex flex-col items-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-20"
+          >
+            <h2 className="font-orbitron font-bold text-4xl md:text-6xl text-foreground mb-4">
+              SYSTEM <span className="text-primary-container drop-shadow-[0_0_15px_rgba(0,242,255,0.5)]">DIAGNOSTICS</span>
+            </h2>
+            <div className="h-1 w-32 bg-gradient-to-r from-transparent via-primary-container to-transparent mx-auto"></div>
+          </motion.div>
+          
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full"
+          >
+            {/* Card 01 */}
+            <motion.div 
+              variants={cardVariants}
+              whileHover={{ y: -15, scale: 1.02 }}
+              className="flex flex-col items-center text-center p-10 border border-surface-bright bg-surface/50 backdrop-blur-sm clip-path-polygon relative overflow-hidden group hover:border-primary-container transition-all duration-500"
+            >
+              <div className="absolute top-0 right-0 w-24 h-24 bg-primary-container/5 -m-10 rounded-full group-hover:scale-150 transition-transform duration-700"></div>
+              <div className="text-5xl font-orbitron font-bold text-surface-variant mb-6 opacity-30 group-hover:opacity-100 group-hover:text-primary-container transition-all">01</div>
+              <h3 className="font-bold text-2xl uppercase tracking-[0.2em] text-primary mb-4">Select Parts</h3>
+              <p className="text-surface-variant leading-relaxed">Access the high-fidelity parts vault. Browse through advanced attack rings, gravity-defying weight disks, and high-traction bases.</p>
+              
+              {/* Animated line on hover */}
+              <div className="absolute bottom-0 left-0 w-0 h-1 bg-primary-container group-hover:w-full transition-all duration-500"></div>
+            </motion.div>
+            
+            {/* Card 02 */}
+            <motion.div 
+              variants={cardVariants}
+              whileHover={{ y: -15, scale: 1.02 }}
+              className="flex flex-col items-center text-center p-10 border border-surface-bright bg-surface/50 backdrop-blur-sm clip-path-polygon relative overflow-hidden group hover:border-secondary-container transition-all duration-500"
+            >
+              <div className="absolute top-0 right-0 w-24 h-24 bg-secondary-container/5 -m-10 rounded-full group-hover:scale-150 transition-transform duration-700"></div>
+              <div className="text-5xl font-orbitron font-bold text-surface-variant mb-6 opacity-30 group-hover:opacity-100 group-hover:text-secondary-container transition-all">02</div>
+              <h3 className="font-bold text-2xl uppercase tracking-[0.2em] text-secondary mb-4">Analyze View</h3>
+              <p className="text-surface-variant leading-relaxed">Simulate aerodynamic performance via real-time 2D projection. Inspect every millimeter using the holographic top and side profile viewers.</p>
+              
+              <div className="absolute bottom-0 left-0 w-0 h-1 bg-secondary-container group-hover:w-full transition-all duration-500"></div>
+            </motion.div>
+            
+            {/* Card 03 */}
+            <motion.div 
+              variants={cardVariants}
+              whileHover={{ y: -15, scale: 1.02 }}
+              className="flex flex-col items-center text-center p-10 border border-surface-bright bg-surface/50 backdrop-blur-sm clip-path-polygon relative overflow-hidden group hover:border-primary-container transition-all duration-500"
+            >
+              <div className="absolute top-0 right-0 w-24 h-24 bg-primary-container/5 -m-10 rounded-full group-hover:scale-150 transition-transform duration-700"></div>
+              <div className="text-5xl font-orbitron font-bold text-surface-variant mb-6 opacity-30 group-hover:opacity-100 group-hover:text-primary-container transition-all">03</div>
+              <h3 className="font-bold text-2xl uppercase tracking-[0.2em] text-primary mb-4">Save to Vault</h3>
+              <p className="text-surface-variant leading-relaxed">Register your custom construct in the global operative registry. Synchronize your loadout and showcase your engineering prowess.</p>
+              
+              <div className="absolute bottom-0 left-0 w-0 h-1 bg-primary-container group-hover:w-full transition-all duration-500"></div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
     </div>
-  );
+  )
 }
