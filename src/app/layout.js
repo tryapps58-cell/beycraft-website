@@ -20,8 +20,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${orbitron.variable} antialiased`}>
-      <body className="min-h-screen flex flex-col bg-background text-foreground selection:bg-primary-container selection:text-background">
+    <html lang="en" suppressHydrationWarning className={`${spaceGrotesk.variable} ${orbitron.variable} antialiased`}>
+      <body suppressHydrationWarning className="min-h-screen flex flex-col bg-background text-foreground selection:bg-primary-container selection:text-background">
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
